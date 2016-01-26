@@ -59,7 +59,7 @@ App Chains
 ======================================
 Search and find app chains -> https://sequencing.com/app-chains/
 
-While there are already app chains to personalize most apps, if you need something but don't see an app chain for it, tell us! (ie email us: gittaca@sequencing.com).
+While there are already app chains to personalize most apps, if you need something but don't see an app chain for it, tell us! ie email us: gittaca@sequencing.com
 
 Each app chain is composed of 
 * an **API request** to Sequencing.com
