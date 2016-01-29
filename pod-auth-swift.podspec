@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   :git => "https://github.com/SequencingDOTcom/CocoaPods-Swift-iOS-plugin.git", 
   :tag => "1.0.0" 
   }
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '8.0'
   s.source_files = 'Pod', 'Pod/**/*.swift'  
   s.requires_arc = true
 
