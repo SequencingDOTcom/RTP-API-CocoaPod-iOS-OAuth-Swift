@@ -5,12 +5,12 @@
 
 import Foundation
 
-class SQToken: NSObject {
+public class SQToken: NSObject {
     
-    var accessToken     = String()
-    var expirationDate  = NSDate()
-    var tokenType       = String()
-    var scope           = String()
-    var refreshToken    = String()
+    public var accessToken     = String()
+    public var expirationDate  = NSDate()
+    public var tokenType       = String()
+    public var scope           = String()
+    public var refreshToken    = String()
 
 }

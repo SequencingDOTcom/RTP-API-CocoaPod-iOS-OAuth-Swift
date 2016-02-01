@@ -83,7 +83,7 @@ class SQServerManager: NSObject {
                     // state matches - we can proceed with token request
                     // ===== getting token request =====
                     self.startActivityIndicatorWithTitle("Authorizing user")
-                    let codeFromResponse = response?.objectForKey("code") as! String
+                    if let codeFromResponse = response?.objectForKey("code") as? String {
                     self.postForTokenWithCode(codeFromResponse, completion: { (token, error) -> Void in
                         if token != nil {
                             self.stopActivityIndicator()
@@ -100,6 +100,12 @@ class SQServerManager: NSObject {
                             completion(authResult: SQAuthResult.instance)
                         }
                     })
+                    } else {
+                        self.stopActivityIndicator()
+                        SQAuthResult.instance.isAuthorized = false
+                        print("Can't authorize user. Don't forget to register application parameters")
+                        completion(authResult: SQAuthResult.instance)
+                    }
                 }
             } else {
                 self.stopActivityIndicator()

@@ -5,11 +5,11 @@
 
 import Foundation
 
-class SQAuthResult: NSObject {
+public class SQAuthResult: NSObject {
     
-    var isAuthorized: Bool = false
+    public var isAuthorized: Bool = false
     
-    var token: SQToken = SQToken() {
+    public var token: SQToken = SQToken() {
         willSet(newToken) {
             token.accessToken = newToken.accessToken
             token.expirationDate = newToken.expirationDate
@@ -29,6 +29,6 @@ class SQAuthResult: NSObject {
     }
     
     // designated initializer
-    static let instance = SQAuthResult()
+    public static let instance = SQAuthResult()
 
 }
