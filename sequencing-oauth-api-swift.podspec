@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 
-  s.name         = "sequencing-oauth-api-objc.podspec"
+  s.name         = "sequencing-oauth-api-swift"
   s.version      = "1.0.1"
   s.summary      = "oAuth2 authentication implementation for Sequencing.com's API in Swift"
   s.homepage     = "https://github.com/SequencingDOTcom/CocoaPods-Swift-iOS-plugin.git"
