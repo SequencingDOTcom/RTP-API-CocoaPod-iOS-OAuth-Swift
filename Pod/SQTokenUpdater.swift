@@ -32,7 +32,7 @@ class SQTokenUpdater: NSObject {
                 1 * NSEC_PER_SEC)
             
             dispatch_source_set_event_handler(timer, { () -> Void in
-                print("checking dates")
+                // print("checking dates")
                 let nowDate = NSDate()
                 let oldToken = SQAuthResult.instance.token
                 let expDate = oldToken.expirationDate
@@ -58,15 +58,15 @@ class SQTokenUpdater: NSObject {
     func executeRefreshTokenRequest() -> Void {
         SQServerManager.instance.postForNewTokenWithRefreshToken(SQAuthResult.instance.token) { (updatedToken, error) -> Void in
             if updatedToken != nil {
-                self.printToken(SQAuthResult.instance.token, withActivity: "oldToken")
-                self.printToken(updatedToken!, withActivity: "refreshedToken")
+                // self.printToken(SQAuthResult.instance.token, withActivity: "oldToken")
+                // self.printToken(updatedToken!, withActivity: "refreshedToken")
                 SQAuthResult.instance.token = updatedToken!
-                self.printToken(SQAuthResult.instance.token, withActivity: "oldUpdatedToken")
+                // self.printToken(SQAuthResult.instance.token, withActivity: "oldUpdatedToken")
             }
         }
     }
     
-    
+    /*
     func printToken(token: SQToken, withActivity activity: String) -> Void {
         print(activity)
         print("accessToken: \(token.accessToken)")
@@ -74,6 +74,6 @@ class SQTokenUpdater: NSObject {
         print("tokenType: \(token.tokenType)")
         print("scope: \(token.scope)")
         print("refreshToken: \(token.refreshToken)")
-    }
+    } */
 
 }
