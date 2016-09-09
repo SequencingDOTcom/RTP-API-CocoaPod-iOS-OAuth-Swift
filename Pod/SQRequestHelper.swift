@@ -5,17 +5,17 @@
 
 import Foundation
 
+
 class SQRequestHelper : NSObject {
     
-    // var redirect_uri: String = ""
     var redirect_uri: String = ""
     
     
-    // designated initializer
+    // MARK: - Initializer
     static let instance = SQRequestHelper()
     
     
-    // MARK: - Save redirect_uri var
+    // MARK: - custom Saver/Setter
     func rememberRedirectUri(redirect_uri: String) -> Void {
         self.redirect_uri = redirect_uri
     }
@@ -36,19 +36,29 @@ class SQRequestHelper : NSObject {
     func parseRequest(request: NSURLRequest) -> NSMutableDictionary {
         let dict: NSMutableDictionary = NSMutableDictionary()
         var query = request.URL!.description
-        let array: Array = query.componentsSeparatedByString("?")
-        if array.count > 1 {
-            query = array.last!
-        }
-        let params: Array = query.componentsSeparatedByString("&")
-        for param in params {
-            let elements = param.componentsSeparatedByString("=")
-            if elements.count == 2 {
-                let key = elements.first!.stringByRemovingPercentEncoding
-                let val = elements.last!.stringByRemovingPercentEncoding
-                dict.setObject(val!, forKey: key!)
+        
+        if query.containsString("access_denied") {
+            dict.setObject(NSNumber(bool: true), forKey: "didCancelAuthorization")
+            
+        } else if query.containsString("invalid_request") {
+            dict.setObject(NSNumber(bool: true), forKey: "error")
+            
+        } else {
+            let array: Array = query.componentsSeparatedByString("?")
+            if array.count > 1 {
+                query = array.last!
+            }
+            let params: Array = query.componentsSeparatedByString("&")
+            for param in params {
+                let elements = param.componentsSeparatedByString("=")
+                if elements.count == 2 {
+                    let key = elements.first!.stringByRemovingPercentEncoding
+                    let val = elements.last!.stringByRemovingPercentEncoding
+                    dict.setObject(val!, forKey: key!)
+                }
             }
         }
+        
         return dict
     }
     

@@ -5,30 +5,38 @@
 
 import Foundation
 
+
 public class SQAuthResult: NSObject {
     
-    public var isAuthorized: Bool = false
     
+    // MARK: - Token var with setter
     public var token: SQToken = SQToken() {
+        
         willSet(newToken) {
             token.accessToken = newToken.accessToken
             token.expirationDate = newToken.expirationDate
             token.tokenType = newToken.tokenType
             token.scope = newToken.scope
             
-            // DO NOT OVERRIDE REFRESH_TOKEN HERE (after refresh token request it comes as null)
+            /*
+             * DO NOT OVERRIDE REFRESH_TOKEN HERE
+             * (after refresh token request it comes as null)
+             */
             if newToken.refreshToken != "" {
                 token.refreshToken = newToken.refreshToken
             }
         }
-        didSet(oldValue) {
+        
+        didSet(oldToken) {
             if token.refreshToken == "" {
-                token.refreshToken = oldValue.refreshToken
+                token.refreshToken = oldToken.refreshToken
             }
         }
     }
     
-    // designated initializer
+    
+    // MARK: - Initializer
     public static let instance = SQAuthResult()
-
+    
+    
 }

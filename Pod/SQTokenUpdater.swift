@@ -5,21 +5,24 @@
 
 import Foundation
 
+
 class SQTokenUpdater: NSObject {
     
     var timer: dispatch_source_t!
     
-    // time interval lengh in seconds, in order to check token expiration periodically
-    let SECONDS_TO_FIRE = 300
+    let SECONDS_TO_FIRE = 300   // time interval lengh in seconds, in order to check token expiration periodically
 
     
-    // designated initializer
+    // MARK: - Initializer
     static let instance = SQTokenUpdater()
     
     
     // MARK: - Timer methods
     
-    // start timer should be launched once user is authorized, in order to start access_token being automatically refreshed
+    /*
+     * start timer should be launched once user is authorized,
+     * in order to start access_token being automatically refreshed
+     */
     func startTimer() -> Void {
         let queue: dispatch_queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
@@ -45,7 +48,11 @@ class SQTokenUpdater: NSObject {
         }
     }
     
-    // cancelTimer should be launched when user is loged out, in order to stop refreshing access_token
+    
+    /*
+     * cancelTimer should be launched when user is logged out,
+     * in order to stop refreshing access_token
+     */
     func cancelTimer() -> Void {
         if timer != nil {
             dispatch_source_cancel(timer)
@@ -56,15 +63,19 @@ class SQTokenUpdater: NSObject {
     
     // MARK: - Refresh token method
     func executeRefreshTokenRequest() -> Void {
+        print("[TokenUpdater] executing refreshTokenRequest")
+        
         SQServerManager.instance.postForNewTokenWithRefreshToken(SQAuthResult.instance.token) { (updatedToken, error) -> Void in
             if updatedToken != nil {
-                // self.printToken(SQAuthResult.instance.token, withActivity: "oldToken")
-                // self.printToken(updatedToken!, withActivity: "refreshedToken")
                 SQAuthResult.instance.token = updatedToken!
-                // self.printToken(SQAuthResult.instance.token, withActivity: "oldUpdatedToken")
+                SQOAuth.instance.refreshTokenDelegate?.tokenIsRefreshed(updatedToken!)
+                
+            } else if error != nil {
+                print("[TokenUpdater] error while updating token: " + error!.localizedDescription)
             }
         }
     }
+    
     
     /*
     func printToken(token: SQToken, withActivity activity: String) -> Void {

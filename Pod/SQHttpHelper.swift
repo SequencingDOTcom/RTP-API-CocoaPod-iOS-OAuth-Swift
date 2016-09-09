@@ -9,14 +9,17 @@
 
 import Foundation
 
+
 typealias HttpCallback = (responseText: NSString?, response: NSURLResponse?, error: NSError?) -> Void
+
 
 class SQHttpHelper: NSObject {
     
-    // designated initializer
+    // MARK: - Initializer
     static let instance = SQHttpHelper()
     
     
+    // MARK: - execHttpRequestWithUrl
     func execHttpRequestWithUrl(
         url: String,
         method: String,
@@ -67,7 +70,7 @@ class SQHttpHelper: NSObject {
                 request.HTTPBody = parametersString.dataUsingEncoding(NSUTF8StringEncoding)
             }
             
-            request.timeoutInterval = 10
+            request.timeoutInterval = 15
             request.HTTPShouldHandleCookies = false
             
             let dataTask: NSURLSessionDataTask = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, serverResponse, serverError) -> Void in
