@@ -22,8 +22,8 @@ public protocol SQTokenRefreshProtocolDelegate: class {
 
 public class SQOAuth : NSObject {
     
-    weak var authorizationDelegate: SQAuthorizationProtocolDelegate?
-    weak var refreshTokenDelegate: SQTokenRefreshProtocolDelegate?
+    public weak var authorizationDelegate: SQAuthorizationProtocolDelegate?
+    public var refreshTokenDelegate: SQTokenRefreshProtocolDelegate?
     
     
     // MARK: - Initializer

@@ -73,69 +73,76 @@ class SQServerManager: NSObject {
             "client_id=" + client_id + "&" +
             "scope=" + self.scope + "&" +
             self.mobileParam
-        let urlRequest = NSURL(string: urlString)!
         
-        // ===== authorizing user request ======
-        let loginWebViewController: SQLoginWebViewController = SQLoginWebViewController.init(url: urlRequest) { (response) -> Void in
-            print(response)
+        if urlString.rangeOfString(" ") == nil {
+            let urlRequest = NSURL(string: urlString)!
             
-            if response != nil {
-                let keys: NSArray = response!.allKeys
+            // ===== authorizing user request ======
+            let loginWebViewController: SQLoginWebViewController = SQLoginWebViewController.init(url: urlRequest) { (response) -> Void in
+                print(response)
                 
-                if keys.containsObject("state") {
-                    // first, must check if "state" from response matches "state" in request
-                    let stateInResponse = response?.objectForKey("state") as! String
-                    if stateInResponse != randomState {
-                        print("state mismatch, response is being spoofed")
-                        self.stopActivityIndicator()
-                        result(token: nil, didCancel: false, error: true)
-                        
-                    } else {
-                        // state matches - we can proceed with token request
-                        // ===== getting token request =====
-                        self.startActivityIndicatorWithTitle("Authorizing user")
-                        if let codeFromResponse = response?.objectForKey("code") as? String {
-                            
-                            self.postForTokenWithCode(codeFromResponse, completion: { (token, error) -> Void in
-                                if token != nil {
-                                    self.stopActivityIndicator()
-                                    SQAuthResult.instance.token = token!
-                                    SQTokenUpdater.instance.cancelTimer()
-                                    // THIS WILL START TIMER TO AUTOMATICALLY REFRESH ACCESS_TOKEN WHEN IT'S EXPIRED
-                                    SQTokenUpdater.instance.startTimer()
-                                    result(token: token!, didCancel: false, error: false)
-                                    
-                                } else if error != nil {
-                                    print(error)
-                                    self.stopActivityIndicator()
-                                    result(token: nil, didCancel: false, error: true)
-                                }
-                            })
-                            
-                        } else {
-                            print("Can't authorize user. Don't forget to register application parameters")
+                if response != nil {
+                    let keys: NSArray = response!.allKeys
+                    
+                    if keys.containsObject("state") {
+                        // first, must check if "state" from response matches "state" in request
+                        let stateInResponse = response?.objectForKey("state") as! String
+                        if stateInResponse != randomState {
+                            print("state mismatch, response is being spoofed")
                             self.stopActivityIndicator()
                             result(token: nil, didCancel: false, error: true)
+                            
+                        } else {
+                            // state matches - we can proceed with token request
+                            // ===== getting token request =====
+                            self.startActivityIndicatorWithTitle("Authorizing user")
+                            if let codeFromResponse = response?.objectForKey("code") as? String {
+                                
+                                self.postForTokenWithCode(codeFromResponse, completion: { (token, error) -> Void in
+                                    if token != nil {
+                                        self.stopActivityIndicator()
+                                        SQAuthResult.instance.token = token!
+                                        SQTokenUpdater.instance.cancelTimer()
+                                        // THIS WILL START TIMER TO AUTOMATICALLY REFRESH ACCESS_TOKEN WHEN IT'S EXPIRED
+                                        SQTokenUpdater.instance.startTimer()
+                                        result(token: token!, didCancel: false, error: false)
+                                        
+                                    } else if error != nil {
+                                        print(error)
+                                        self.stopActivityIndicator()
+                                        result(token: nil, didCancel: false, error: true)
+                                    }
+                                })
+                                
+                            } else {
+                                print("Can't authorize user. Don't forget to register application parameters")
+                                self.stopActivityIndicator()
+                                result(token: nil, didCancel: false, error: true)
+                            }
                         }
+                        
+                    } else if keys.containsObject("didCancelAuthorization") {
+                        self.stopActivityIndicator()
+                        result(token: nil, didCancel: true, error: false)
+                        
+                    } else if keys.containsObject("error") {
+                        self.stopActivityIndicator()
+                        result(token: nil, didCancel: false, error: true)
                     }
-                    
-                } else if keys.containsObject("didCancelAuthorization") {
-                    self.stopActivityIndicator()
-                    result(token: nil, didCancel: true, error: false)
-                    
-                } else if keys.containsObject("error") {
+                } else {
                     self.stopActivityIndicator()
                     result(token: nil, didCancel: false, error: true)
                 }
-            } else {
-                self.stopActivityIndicator()
-                result(token: nil, didCancel: false, error: true)
             }
+            
+            let navigationVC = UINavigationController(rootViewController: loginWebViewController)
+            let mainVC = UIApplication.sharedApplication().windows.first!.rootViewController
+            mainVC!.presentViewController(navigationVC, animated: true, completion: nil)
+            
+        } else {
+            self.stopActivityIndicator()
+            result(token: nil, didCancel: false, error: true)
         }
-        
-        let navigationVC = UINavigationController(rootViewController: loginWebViewController)
-        let mainVC = UIApplication.sharedApplication().windows.first!.rootViewController
-        mainVC!.presentViewController(navigationVC, animated: true, completion: nil)
     }
     
     
