@@ -88,13 +88,13 @@ Please follow instruction below if you want to install and use OAuth logic in yo
         	}
     
 			func userIsNotAuthorized() -> Void {
-				dispatch_async(dispatch_get_main_queue(), { () -> Void in
+				dispatch_async(dispatch_get_main_queue()) {
 					// your code is here for unsuccessful user authorization
 				}
 			}
 
 			func userDidCancelAuthorization() -> Void {
-				dispatch_async(kMainQueue) {
+				dispatch_async(dispatch_get_main_queue()) {
 					// your code is here for abandoned user authorization
 				}
 			}
@@ -152,7 +152,7 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		* add constant for segue id
 			```let SELECT_FILES_CONTROLLER_SEGUE_ID = "SELECT_FILES"```
 		
-		* example of navigation methods when user is authorized
+		* example of navigation methods when user is authorized (token object will be passed on to the SelectFileViewController)
 			```
 			func userIsSuccessfullyAuthorized(token: SQToken) -> Void {
 				dispatch_async(self.kMainQueue, { () -> Void in
@@ -182,6 +182,11 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		* subscribe your class for these protocols
 			```
 			<SQTokenRefreshProtocolDelegate>
+			```
+			
+		* add property for handling Token object
+			```
+			var token: SQToken?
 			```
 		
 		* subscribe your class as delegate for such protocols
