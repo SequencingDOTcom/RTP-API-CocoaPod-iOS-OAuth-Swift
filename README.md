@@ -181,7 +181,7 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 				
 		* subscribe your class for these protocols
 			```
-			<SQTokenRefreshProtocolDelegate>
+			SQTokenRefreshProtocolDelegate
 			```
 			
 		* add property for handling Token object
@@ -203,11 +203,11 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		
 		* in method ```userIsSuccessfullyAuthorized``` and in method ```tokenIsRefreshed``` you'll receive the same SQToken object, that contains following 5 properties with clear titles for usage:
 			```	
-			accessToken: String
-			expirationDate: NSDate
-			tokenType: String
-			scope: String
-			refreshToken: String
+			accessToken:	String
+			expirationDate:	NSDate
+			tokenType:		String
+			scope:			String
+			refreshToken:	String
 			```
 		
 			(!) DO NOT OVERRIDE ```refresh_token``` property for ```token``` object - it comes as ```nil``` after refresh token request.
