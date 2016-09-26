@@ -146,6 +146,18 @@ Please follow instruction below if you want to install and use OAuth logic in yo
     		}
     		```
     		
+    	* if you want to use original sequencing icon for login button add ```Assets.xcassets``` into ```Copy Bundle Resources``` in project settings
+    		- select project name
+    		- select project target
+    		- open ```Build Phases``` tab
+    		- expand ```Copy Bundle Resources``` phase
+    		- click ```Add Items``` button (plus icon)
+    		- click ```Add Other``` button
+    		- open your project folder
+    		- open ```Pods``` subfolder
+    		- open ```sequencing-oauth-api-swift``` subfolder
+    		- open ```Resources``` subfolder
+    		- select ```Assets.xcassets``` file
 		
 		* add segue in Storyboard from LoginViewController to MainViewController with identifier ```SELECT_FILES```
 		
