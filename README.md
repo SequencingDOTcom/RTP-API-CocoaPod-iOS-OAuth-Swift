@@ -27,7 +27,7 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 	* don't forget to uncomment the row (as this is Swift pod) ```use_frameworks!```
 	* specify "sequencing-oauth-api-swift" pod parameters:
 	
-		```pod 'sequencing-oauth-api-swift', '~> 1.0.3'```
+		```pod 'sequencing-oauth-api-swift', '~> 2.0.0'```
 		
 	* install the dependency in your project: ```$ pod install```
 	* always open the Xcode workspace instead of the project file: ```$ open *.xcworkspace```
