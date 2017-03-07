@@ -7,8 +7,7 @@
 #import "SQOAuth.h"
 #import "SQToken.h"
 #import "SQAuthorizationProtocol.h"
-#import "SQSignUpProtocol.h"
-#import "SQResetPasswordProtocol.h"
+
 
 @interface SQOAuthFramework : NSObject
 
