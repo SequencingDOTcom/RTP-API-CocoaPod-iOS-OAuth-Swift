@@ -76,10 +76,10 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		
 	* register your app parameters and delegate
 		```
-		SQOAuth.sharedInstance().registerApplicationParametersCliendID(self.CLIENT_ID,
-                                                                       clientSecret: self.CLIENT_SECRET,
-                                                                       redirectUri: self.REDIRECT_URI,
-                                                                       scope: self.SCOPE,
+		SQOAuth.sharedInstance().registerApplicationParametersCliendID(client_id,
+                                                                       clientSecret: client_secret,
+                                                                       redirectUri: redirect_uri,
+                                                                       scope: scope,
                                                                        delegate: self)
     	```
     	
@@ -110,13 +110,13 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		```
 	
 	* in method ```userIsSuccessfullyAuthorized``` you'll receive the SQToken object:		
-			```	
-			accessToken:	String
-			expirationDate:	NSDate
-			tokenType:		String
-			scope:			String
-			refreshToken:	String
-			```			
+		```	
+		accessToken:	String
+		expirationDate:	NSDate
+		tokenType:		String
+		scope:			String
+		refreshToken:	String
+		```			
 
 
 * **Access to up-to-date token**
