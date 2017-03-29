@@ -1,6 +1,4 @@
 # CocoaPods plugin for quickly adding Sequencing.com's OAuth2 to iOS apps coded in Swift
-
-=========================================
 This repo contains CocoaPods plugin code for implementing Sequencing.com's OAuth2 authentication for your Swift iOS app so that your app can securely access [Sequencing.com's](https://sequencing.com/) API and app chains.
 
 * oAuth flow is explained [here](https://github.com/SequencingDOTcom/OAuth2-code-with-demo)
@@ -8,7 +6,7 @@ This repo contains CocoaPods plugin code for implementing Sequencing.com's OAuth
 
 Contents
 =========================================
-* Cocoa Pod integration
+* CocoaPods integration
 * Resources
 * Maintainers
 * Contribute
