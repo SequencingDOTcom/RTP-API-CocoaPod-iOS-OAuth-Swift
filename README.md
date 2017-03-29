@@ -76,11 +76,12 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		
 	* register your app parameters and delegate
 		```
-		SQOAuth.sharedInstance().registerApplicationParametersCliendID(client_id,
-                                                                       clientSecret: client_secret,
-                                                                       redirectUri: redirect_uri,
-                                                                       scope: scope,
-                                                                       delegate: self)
+		SQOAuth.sharedInstance().registerApplicationParametersCliendID(CLIENT_ID,
+                                                             clientSecret: CLIENT_SECRET,
+                                                             redirectUri: REDIRECT_URI,
+                                                             scope: SCOPE,
+                                                             delegate: self,
+                                                             viewControllerDelegate: self)
     	```
     	
     	where:
@@ -89,7 +90,8 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		client_secret - your app CLIENT_SECRET
 		redirect_uri - your app REDIRECT_URI
 		scope - your app SCOPE
-		delegate - UIViewController instance that conform to "SQAuthorizationProtocol" protocol
+		delegate - class that conforms to "SQAuthorizationProtocol" protocol
+		viewControllerDelegate - provide your class instance as UI delegate
 		```		
 
 
@@ -123,9 +125,12 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		
 	* to receive up-to-date token use related method from SQOAuth API (it returns the updated token): 
 		```
-		SQOAuth.sharedInstance().token { (token) in
-		}
+		SQOAuth.sharedInstance().token({ (SQToken?, String?) in
+        })
 		```
+		
+		where are SQToken of token object, and String of accessToken value
+
 
 
 * **Register new account / Reset password methods**
@@ -135,6 +140,79 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		SQOAuth.sharedInstance().callRegisterResetAccountFlow()
 		```
 
+
+* **Connect To Sequencing method**
+	
+	* init instance of ```SQConnectTo``` class
+		```
+		let connetManager = SQConnectTo.init()
+		```
+			
+	* call ```connectToSequencing(withCliendSecret: userEmail: filesArray: viewControllerDelegate:)``` method
+		```
+        connetManager.connectToSequencing(withCliendSecret: SQOAuth.sharedInstance(),
+                                          userEmail: "your email address",
+                                          filesArray: filesArray as! [Any],
+                                          viewControllerDelegate: self)
+        ```
+        
+        where
+        ```
+		clientSecretProvider - provide SQOAuth instance (as ```SQOAuth.sharedInstance()```)
+		emailAddress - your account email address
+		filesArray - NSArray of genetic files (see details below)
+		viewControllerDelegate - provide your class instance as UI delegate
+		```
+		
+		files should be passed on as NSArray object with NSDictionary file objects inside. Following keys and values should be used:
+		```
+		"name"		: file name as NSString
+		"type"		: NSString
+		"url"		: file url as NSString
+		"hashType"	: NSString
+		"hashValue"	: NSString
+		"size"		: NSString
+		```
+		
+		
+* **23andMe files import**
+
+	* init instance of ```SQ3rdPartyImportAPI``` class
+		```
+		let importAPI: SQ3rdPartyImportAPI = SQ3rdPartyImportAPI.init()
+		```
+		
+	* call ```importFrom23AndMe(withToken: viewControllerDelegate)``` method
+		```
+		importAPI.importFrom23AndMe(withToken: SQOAuth.sharedInstance(),
+                                    viewControllerDelegate: self)
+		```
+		
+		where
+		```
+		tokenProvider - provide SQOAuth instance (as ```SQOAuth.sharedInstance()```)
+		viewControllerDelegate - provide your class instance as UI delegate
+		```
+
+
+* **Ancestry.com files import**
+
+	* init instance of ```SQ3rdPartyImportAPI``` class
+		```
+		let importAPI: SQ3rdPartyImportAPI = SQ3rdPartyImportAPI.init()
+		```
+				
+	* call ```importFromAncestry(withToken: viewControllerDelegate:)``` method
+		```
+		importAPI.importFromAncestry(withToken: SQOAuth.sharedInstance(),
+                                     viewControllerDelegate: self)
+		```
+		
+		where
+		```
+		tokenProvider - provide SQOAuth instance (as ```SQOAuth.sharedInstance()```)
+		viewControllerDelegate - provide your class instance as UI delegate
+		```
 
 
 
