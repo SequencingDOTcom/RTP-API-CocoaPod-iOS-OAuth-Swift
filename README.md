@@ -74,12 +74,12 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		
 	* register your app parameters and delegate
 		```
-		SQOAuth.sharedInstance().registerApplicationParametersCliendID(CLIENT_ID,
-                                                             clientSecret: CLIENT_SECRET,
-                                                             redirectUri: REDIRECT_URI,
-                                                             scope: SCOPE,
-                                                             delegate: self,
-                                                             viewControllerDelegate: self)
+		SQOAuth.sharedInstance().registerApplicationParametersCliendID("your CLIENT_ID here",
+                                                             clientSecret: "your CLIENT_SECRET here",
+                                                             redirectUri: "your REDIRECT_URI here",
+                                                             scope: "your SCOPE here",
+                                                             delegate: <your delegate>,
+                                                             viewControllerDelegate: <your VC delegate>)
     	```
     	
     	where:
@@ -140,18 +140,14 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 
 
 * **Connect To Sequencing method**
-	
-	* init instance of ```SQConnectTo``` class
+			
+	* call ```connectToSequencing(withCliendSecret: userEmail: filesArray: viewControllerDelegate:)``` method from ```SQConnectTo``` class
 		```
 		let connetManager = SQConnectTo.init()
-		```
-			
-	* call ```connectToSequencing(withCliendSecret: userEmail: filesArray: viewControllerDelegate:)``` method
-		```
         connetManager.connectToSequencing(withCliendSecret: SQOAuth.sharedInstance(),
                                           userEmail: "your email address",
-                                          filesArray: filesArray as! [Any],
-                                          viewControllerDelegate: self)
+                                          filesArray: <your files Array> as! [Any],
+                                          viewControllerDelegate: <your VC gelegate>)
         ```
         
         where
@@ -174,16 +170,11 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 		
 		
 * **23andMe files import**
-
-	* init instance of ```SQ3rdPartyImportAPI``` class
+		
+	* call ```importFrom23AndMe(withToken: viewControllerDelegate)``` method from ```SQ3rdPartyImportAPI``` class
 		```
 		let importAPI: SQ3rdPartyImportAPI = SQ3rdPartyImportAPI.init()
-		```
-		
-	* call ```importFrom23AndMe(withToken: viewControllerDelegate)``` method
-		```
-		importAPI.importFrom23AndMe(withToken: SQOAuth.sharedInstance(),
-                                    viewControllerDelegate: self)
+		importAPI.importFrom23AndMe(withToken: SQOAuth.sharedInstance(), viewControllerDelegate: <your VC gelegate>)
 		```
 		
 		where
@@ -194,16 +185,11 @@ Please follow instruction below if you want to install and use OAuth logic in yo
 
 
 * **Ancestry.com files import**
-
-	* init instance of ```SQ3rdPartyImportAPI``` class
+				
+	* call ```importFromAncestry(withToken: viewControllerDelegate:)``` method from ```SQ3rdPartyImportAPI``` class
 		```
 		let importAPI: SQ3rdPartyImportAPI = SQ3rdPartyImportAPI.init()
-		```
-				
-	* call ```importFromAncestry(withToken: viewControllerDelegate:)``` method
-		```
-		importAPI.importFromAncestry(withToken: SQOAuth.sharedInstance(),
-                                     viewControllerDelegate: self)
+		importAPI.importFromAncestry(withToken: SQOAuth.sharedInstance(), viewControllerDelegate: <your VC gelegate>)
 		```
 		
 		where
